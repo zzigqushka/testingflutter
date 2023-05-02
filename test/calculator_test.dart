@@ -1,11 +1,7 @@
 import 'dart:async';
 import 'package:fake_async/fake_async.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
-
-@GenerateNiceMocks([MockSpec<IDataSource>()])
-import 'calculator_test.mocks.dart';
 
 
 abstract class IDataSource {
@@ -15,6 +11,8 @@ abstract class IDataSource {
 class DataSource {
   List<String> getTodoList() => ['Task 1', 'Task 2'];
 }
+
+class MockIDataSource extends Mock implements IDataSource {}
 
 class Repository {
   IDataSource dataSource;
@@ -95,10 +93,10 @@ void main() {
       test('Test mock', () {
         final r = MockIDataSource();
         final c = Repository(r);
-        when(r.getTodoList()).thenReturn(['TestData1', 'TestData2']);
+        when(r.getTodoList).thenReturn(['TestData1', 'TestData2']);
         print(c.reversedTodoList());
-        verify(r.getTodoList()).called(1);
-ghjg
+        verify(r.getTodoList).called(1);
+
       });
     },
   );
